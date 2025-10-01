@@ -1,8 +1,7 @@
 flask==3.0.0
 flask-cors==4.0.0
 transformers==4.44.2
-torch==2.5.1
+torch==2.6.0
 torchaudio==2.6.0
 ffmpeg-python
 tokenizers==0.19.1
-
