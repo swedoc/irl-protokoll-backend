@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Ladda Huggingface Whisper pipeline
-pipe = pipeline("automatic-speech-recognition", model="openai/whisper-small")
+pipe = pipeline("automatic-speech-recognition", model="openai/whisper-tiny")
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe():
