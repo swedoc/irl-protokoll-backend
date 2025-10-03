@@ -43,10 +43,32 @@ mistral_model = AutoModelForCausalLM.from_pretrained(
 mistral_tokenizer = AutoTokenizer.from_pretrained(mistral_model_id)
 
 def summarize_text(text: str) -> str:
-    prompt = f"Gör ett neutralt, strukturerat mötesprotokoll av följande text:\n\n{text}\n\n"
+    prompt = f"""Sammanfatta följande transkription som ett formellt mötesprotokoll.
+Använd denna struktur exakt:
+
+Mötestitel: [kort titel baserad på innehållet]
+Datum: [dagens datum om det framgår, annars lämna tomt]
+Plats/Plattform: [ange om det framgår]
+Deltagare: [ange om det framgår, annars skriv 'Ej specificerat']
+
+§1. Sammanfattning
+- Kort beskrivning av mötet och huvudpunkterna.
+
+§2. Beslut
+- Lista tydligt alla beslut som framgår.
+
+§3. Åtgärder
+- Lista tydligt alla åtgärder, med ansvarig om det går att utläsa.
+
+§4. Nästa steg
+- Vad som planerats framåt, nästa möte etc.
+
+Transkription:
+{text}
+"""
     inputs = mistral_tokenizer(prompt, return_tensors="pt").to(device)
     with torch.no_grad():
-        outputs = mistral_model.generate(**inputs, max_new_tokens=500)
+        outputs = mistral_model.generate(**inputs, max_new_tokens=600)
     return mistral_tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 @app.route("/summarize", methods=["POST"])
