@@ -1,15 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 import torch
 import os
+import whisper
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 app = Flask(__name__)
 CORS(app)
 
-# ----------- Transkribering -----------
-# HuggingFace Whisper (byt modellnamn här: tiny → medium)
-pipe = pipeline("automatic-speech-recognition", model="openai/whisper-medium")
+# ----------- Transkribering (Whisper på GPU) -----------
+whisper_model = whisper.load_model("medium")  # välj small / medium / large-v3 beroende på behov
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe():
@@ -23,14 +23,13 @@ def transcribe():
     filepath = os.path.join("/tmp", file.filename)
     file.save(filepath)
 
-    result = pipe(filepath)
+    result = whisper_model.transcribe(filepath)
     text = result["text"]
 
     return jsonify({"text": text})
 
 
-# ----------- Summering / protokoll -----------
-# Ladda Mistral 7B (Instruct)
+# ----------- Summering / protokoll (Mistral 7B) -----------
 mistral_model_id = "mistralai/Mistral-7B-Instruct-v0.3"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
