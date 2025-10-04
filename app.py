@@ -6,7 +6,7 @@ import whisper
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://swedoc.github.io"}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": ["https://swedoc.github.io", "https://irlprotokoll.theworkpc.com"]}}, supports_credentials=True)
 
 # ----------- Transkribering (Whisper laddas vid behov) -----------
 @app.route("/transcribe", methods=["POST"])
