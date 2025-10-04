@@ -6,7 +6,7 @@ import whisper
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # ----------- Transkribering (Whisper på GPU) -----------
 whisper_model = whisper.load_model("medium")  # välj small / medium / large-v3 beroende på behov
