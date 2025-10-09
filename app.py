@@ -13,7 +13,9 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 app = Flask(__name__)
 CORS(
     app,
-    resources={r"/*": {"origins": ["https://swedoc.github.io", "https://irlprotokoll.theworkpc.com"]}},
+    resources={r"/*": {"origins": [
+        "https://swedoc.github.io"   # din frontend på GitHub Pages
+    ]}},
     supports_credentials=True
 )
 
