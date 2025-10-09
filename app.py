@@ -17,9 +17,10 @@ CORS(
         "https://swedoc.github.io",
         "https://7p84qiqowa0cp5.proxy.runpod.net"
     ]}},
-    supports_credentials=True
+    supports_credentials=True,
+    allow_headers=["Content-Type"],
+    methods=["GET", "POST", "OPTIONS"]
 )
-
 
 # ------------------------ Konfig via miljövariabler ------------------------
 WHISPER_MODEL = os.getenv("WHISPER_MODEL", "small")          # small | medium | large-v3
