@@ -14,10 +14,12 @@ app = Flask(__name__)
 CORS(
     app,
     resources={r"/*": {"origins": [
-        "https://swedoc.github.io"   # din frontend på GitHub Pages
+        "https://swedoc.github.io",
+        "https://7p84qiqowa0cp5.proxy.runpod.net"
     ]}},
     supports_credentials=True
 )
+
 
 # ------------------------ Konfig via miljövariabler ------------------------
 WHISPER_MODEL = os.getenv("WHISPER_MODEL", "small")          # small | medium | large-v3
